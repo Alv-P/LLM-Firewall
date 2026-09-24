@@ -19,17 +19,11 @@ teams honest, transparent classification results for real evaluation work.
 
 ---
 
-## Submitted to: AI Builders Hackathon 2026
-
-Built for [ai-builders-hackathon-2026.devpost.com](https://ai-builders-hackathon-2026.devpost.com/),
-under the Developer Tools / Generative AI Applications categories.
-
 ### Rebuild Note — project timeline
 
 An earlier version of this project was started in July 2026 and deleted.
 **The current codebase was rebuilt from scratch starting August 31,
-2026**, inside the hackathon's eligibility window (August 21 – September
-15, 2026). Every entry in the Dev Log below reflects work done on this
+2026.** Every entry in the Dev Log below reflects work done on this
 rebuilt codebase. This note exists for transparency, not because any rule
 requires disclosing it — verify against `git log --format="%ad" --reverse`
 for an objective, checkable timestamp if needed.
@@ -96,9 +90,9 @@ directly reachable:
 
 - **Public Demo** tab
   - A shared **Honeypot Mode** toggle at the top, applying to both public
-    sub-tabs (kept visible specifically so it's demonstrable to hackathon
-    judges — a real production deployment would hardcode this on and not
-    expose the toggle to end users at all).
+    sub-tabs (kept visible for demonstration purposes — a real production
+    deployment would hardcode this on and not expose the toggle to end
+    users at all).
   - **Chat** sub-tab — text-only, hits `/chat`.
   - **Chat with a Document** sub-tab — file upload + question, hits
     `/chat-with-document`.
@@ -233,7 +227,7 @@ environments don't bundle it with FastAPI by default.
   would hardcode it on), and an admin panel with API key entry, document upload, and a
   SAFE/FLAGGED badge display.
 - **Known scope limitation, documented not fixed:** admin auth is a single shared header
-  key compared via `secrets.compare_digest`, appropriate for a hackathon demo only. A
+  key compared via `secrets.compare_digest`, appropriate for a local demo/prototype only. A
   production version would need per-organization keys, OAuth/JWT, and rate limiting —
   see Known Limitations.
 
@@ -267,7 +261,7 @@ environments don't bundle it with FastAPI by default.
 | 6 | Non-English injection | Hardcoded keyword lists are English-only; LLM-based check may generalize, unconfirmed |
 | 7 | Base64-encoded payload | Not decoded before scanning — currently missed entirely |
 | 9 | Oversized documents (413 rate-limit errors from Groq) | Not yet handled gracefully — can crash the request rather than being truncated or rejected cleanly |
-| 10 | Admin authentication | Single shared secret via header comparison — appropriate for a hackathon demo, **not** production-grade. No per-organization keys, no OAuth/JWT, no rate limiting, no key rotation. |
+| 10 | Admin authentication | Single shared secret via header comparison — appropriate for a local demo/prototype, **not** production-grade. No per-organization keys, no OAuth/JWT, no rate limiting, no key rotation. |
 | 11 | Honeypot response safety | Constrained by prompt instructions (no real disclosure, no usable harmful content) but not yet adversarially tested at scale — it's possible a sufficiently creative attacker prompt could still coax a less-fictional-sounding reply out of the honeypot model. Not yet verified against the adversarial test suite from Session 4, for either the text (`/chat`) or document (`/chat-with-document`) honeypot path. |
 
 See `firewall_test_cases/README.md` for full technique descriptions of items 1–8.
