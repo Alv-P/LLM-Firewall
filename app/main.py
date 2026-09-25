@@ -9,15 +9,18 @@ from fastapi import UploadFile, File, Form
 from fastapi import Depends
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+
+# Authentication reads its configured key when imported, so load .env first.
+load_dotenv()
+
 from app.features.authentication import require_admin
 from app.features.firewall import is_prompt_flagged, is_document_sensitive
 from app.utils import extract_document_text, truncate_document_text
 from app.features.honeypot import generate_honeypot_response, generate_document_honeypot_response
 
 app = FastAPI(title="LLM Guardrail")
-
-load_dotenv()  # Load environment variables from .env file
 client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+ADMIN_API_KEY = os.environ.get("ADMIN_API_KEY")
 
 # Serve the single-page UI (static/index.html) at the site root, and the
 # rest of static/ (if anything else lives there) at /static.
